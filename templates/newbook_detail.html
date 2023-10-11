@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Book details
+{% endblock %}
+
+{% block main %}
+<div style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
+        <h1>{{ book['volumeInfo']['title'] }}</h1>
+        {% if 'authors' in book['volumeInfo'] %}
+            <p>By {{ book['volumeInfo']['authors'][0] }}</p>
+        {% endif %}
+        <form action="{{ url_for('newbook_detail', book_id=book['id']) }}" method="post">
+        {% if 'imageLinks' in book['volumeInfo']%}
+        <img style="width:25%; heigth=40%" src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}" alt="{{ book['volumeInfo']['title'] }} cover image">
+        {% else %}
+        <img src="/static/inv.jpg" alt="{{ book['volumeInfo']['title'] }} cover image">
+        {%endif%}
+
+        <h5>Price: {{book['saleInfo']['listPrice']['amount']}} {{book['saleInfo']['listPrice']['currencyCode']}}</h5>
+        <input class="form-control" type="number" name="price" placeholder="New Price">
+        <input class="form-control" type="number" name="amount" placeholder="Amount">
+        <button type="submit" class="buy-button">Add</button>
+        <br>
+        </form>
+</div>
+{% endblock %}

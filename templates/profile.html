@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+<div class="form-group" style="background-color:rgba(255,255,255,0.9);border-radius: 25px;">
+    <br>
+    <br>
+    <form action="/" method="post">
+        <label for="dropdown">Select Category:</label>
+        <select id="dropdown" name="dropdown" class="dropdown">
+        <option value="Arts">Arts</option>
+        <option value="History">History</option>
+        <option value="Science">Science</option>
+        <option value="Bussiness">Bussiness</option>
+        <option value="Biography">Biography</option>
+        </select>
+        <br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    <br>
+    <br>
+</div>
+    <div style="background-color:rgba(255,255,255,0.9);border-radius: 25px;">
+        <h3>{{header}}</h3>
+        <table class="table">
+            <tbody>
+                        {% for dat in data["items"]%}
+                        <tr>
+                            <div>
+                                <td>{{dat["volumeInfo"]["title"]}} by
+                                    <div>
+                                    {% if 'authors' in dat['volumeInfo'] %}
+                                    <span style="font-size:large; font-weight: bold;">{{ dat['volumeInfo']['authors'][0] }}</span>
+                                    {% elif header=="Biography" %}
+                                    <span style="font-size:large; font-weight: bold;">{{ dat['volumeInfo']['title']}}</span>
+                                    {%else%}
+                                    <p>Not found</p>
+                                    {%endif%}
+                                    </div>
+                                    <br>
+                                    <a href="{{dat['volumeInfo']['infoLink']}}">
+                                        <img src="{{ dat['volumeInfo']['imageLinks']['smallThumbnail'] }}" alt="{{ dat['volumeInfo']['title'] }} cover image">
+                                    </a>
+                                    <br>
+                                    <br>
+                                    <a href="{{ dat['saleInfo']['buyLink'] }}" target="_blank" class="buy-button">Buy Now</a>
+                                </td>
+                            </div>
+                        </tr>
+                        {% endfor %}
+
+            </tbody>
+            </table>
+    </div>
+    <div style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
+        <h3>YOUR BOOKS</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">WHEN</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows%}
+                    <tr>
+                        <th scope="row">{{row["bookname"]}}</th>
+                        <td>{{row["amount"]}}</td>
+                        <td>{{row["bookprice"]}}</td>
+                        <td>{{row["datetime"]}}</td>
+                        <td>{{row["total"]}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Charge
+{% endblock %}
+
+{% block main %}
+<div class="center">
+    <br>
+    <form action="/cash" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="cash" placeholder="Cash" type="number">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="visa" placeholder="Card Number" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Charge</button>
+    </form>
+    <br>
+</div>
+{% endblock %}

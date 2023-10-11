@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Trading
+{% endblock %}
+
+{% block main %}
+    <div style="background-color:rgba(255,255,255,0.9)">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">WHEN</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows%}
+                    <tr>
+                        <th scope="row">{{row["bookname"]}}</th>
+                        <td>{{row["amount"]}}</td>
+                        <td>{{row["bookprice"]}}</td>
+                        <td>{{row["datetime"]}}</td>
+                        <td>{{row["total"]}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+    </div>
+{% endblock %}
