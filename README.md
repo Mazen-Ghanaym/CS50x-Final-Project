@@ -1,5 +1,4 @@
 # BOOK MARKET
-#### Video Demo:  <https://youtu.be/XN0i38Cl7JU>
 #### Description:
     My project about website you somehow any book store can use to buy books from it,
 Website also provide you like a book search engine based on google books API, as you can use it to buy from google books or our website.
