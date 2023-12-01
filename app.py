@@ -1,6 +1,6 @@
 import os
 import datetime
-from cs50 import SQL
+import sqlite3
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from tempfile import mkdtemp
@@ -18,7 +18,9 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///trading.db")
+con = sqlite3.connect("trading.db")
+db = con.cursor()
+#SQL("sqlite:///trading.db")
 
 
 def login_required(f):
@@ -589,3 +591,6 @@ def newbook_detail(book_id):
 
         # redirect to the main page
         return redirect("/")
+    
+con.commit()
+con.close()
