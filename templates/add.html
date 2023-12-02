@@ -42,6 +42,8 @@
                         <td><a href="{{ url_for('newbook_detail', book_id=book['id']) }}">{{ book['volumeInfo']['title'] }}</a></td>
                         {% if 'authors' in book['volumeInfo'] %}
                             <td>{{ book['volumeInfo']['authors'][0] }}</td>
+                        {% else %}
+                            <td>Unknown</td>
                         {% endif %}
                     <form action="/add" method="post">
                         <td><a href="{{ url_for('newbook_detail', book_id=book['id']) }}" target="_blank" class="buy-button">Add</a></td>

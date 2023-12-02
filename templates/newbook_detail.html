@@ -1,27 +1,36 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Book details
+Book details
 {% endblock %}
 
 {% block main %}
 <div style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
-        <h1>{{ book['volumeInfo']['title'] }}</h1>
-        {% if 'authors' in book['volumeInfo'] %}
-            <p>By {{ book['volumeInfo']['authors'][0] }}</p>
-        {% endif %}
-        <form action="{{ url_for('newbook_detail', book_id=book['id']) }}" method="post">
+    <h1>{{ book['volumeInfo']['title'] }}</h1>
+    {% if 'authors' in book['volumeInfo'] %}
+    <p>By {{ book['volumeInfo']['authors'][0] }}</p>
+    {% endif %}
+    <form action="{{ url_for('newbook_detail', book_id=book['id']) }}" method="post">
         {% if 'imageLinks' in book['volumeInfo']%}
-        <img style="width:25%; heigth=40%" src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}" alt="{{ book['volumeInfo']['title'] }} cover image">
+        <img style="width:25%; height:40%" src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}"
+            alt="{{ book['volumeInfo']['title'] }} cover image">
         {% else %}
         <img src="/static/inv.jpg" alt="{{ book['volumeInfo']['title'] }} cover image">
         {%endif%}
-
+        <br>
+        {% if 'saleInfo' in book %}
+        {% if 'listPrice' in book['saleInfo'] %}
+        {% if 'amount' in book['saleInfo']['listPrice'] %}
         <h5>Price: {{book['saleInfo']['listPrice']['amount']}} {{book['saleInfo']['listPrice']['currencyCode']}}</h5>
+        {% else %}
+        <h5>Price: Old price not found</h5>
+        {% endif %}
+        {% endif %}
+        {% endif %}
         <input class="form-control" type="number" name="price" placeholder="New Price">
         <input class="form-control" type="number" name="amount" placeholder="Amount">
         <button type="submit" class="buy-button">Add</button>
         <br>
-        </form>
+    </form>
 </div>
 {% endblock %}

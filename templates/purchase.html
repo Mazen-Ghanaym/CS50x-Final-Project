@@ -1,26 +1,37 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Purchase
+Purchase
 {% endblock %}
 
 {% block main %}
 <div style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
-        <h1>{{ book['volumeInfo']['title'] }}</h1>
-        {% if 'authors' in book['volumeInfo'] %}
-            <p>By {{ book['volumeInfo']['authors'][0] }}</p>
-        {% endif %}
-        <form action="{{ url_for('purchase', book_id=book['id']) }}" method="post">
+    <h1>{{ book['volumeInfo']['title'] }}</h1>
+    {% if 'authors' in book['volumeInfo'] %}
+    <p>By {{ book['volumeInfo']['authors'][0] }}</p>
+    {% endif %}
+    <form action="{{ url_for('purchase', book_id=book['id']) }}" method="post">
         {% if 'imageLinks' in book['volumeInfo']%}
-        <img style="width:25%; heigth=40%" src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}" alt="{{ book['volumeInfo']['title'] }} cover image">
+        <img style="width:25%; height:40%" src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}"
+            alt="{{ book['volumeInfo']['title'] }} cover image">
         {% else %}
-        <img src="/static/inv.jpg" alt="{{ book['volumeInfo']['title'] }} cover image">
+        <img style="width:25%; height:40%" src="/static/inv.jpg" alt="{{ book['volumeInfo']['title'] }} cover image">
         {%endif%}
-
+        <br>
+        {% if 'saleInfo' in book %}
+        {% if 'listPrice' in book['saleInfo'] %}
+        {% if 'amount' in book['saleInfo']['listPrice'] %}
         <h5>Price: {{book['saleInfo']['listPrice']['amount']}} {{book['saleInfo']['listPrice']['currencyCode']}}</h5>
-        <h5>With delivery fees 10$</h5>
         {% set my_float = book['saleInfo']['listPrice']['amount']|float %}
         <h5>Final Price={{ "$%.2f"|format(my_float + 10) }}</h5>
+        <h5>With delivery fees 10$</h5>
+        {% else %}
+        <h5>Price: Not for sale</h5>
+        <br>
+        <br>
+        {% endif %}
+        {% endif %}
+        {% endif %}
         <label for="header">Your Complete Address</label><br>
         <input class="form-control" type="TEXT" name="address" placeholder="Address" required>
         <br><br>
@@ -32,6 +43,6 @@
         <br>
         <br>
         <p>book will be delivered after 3 days from purchase</p>
-        </form>
+    </form>
 </div>
 {% endblock %}
