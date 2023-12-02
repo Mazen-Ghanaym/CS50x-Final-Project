@@ -272,7 +272,9 @@ def login():
         con = sqlite3.connect("trading.db")
         db = con.cursor()
         db.execute("SELECT * FROM users WHERE username = ?", (request.form.get("username"),))
-        rows = db.fetchall()
+        # convert retrived data into list of dictionaries
+        columns = [column[0] for column in db.description]
+        rows = [dict(zip(columns, row)) for row in db.fetchall()]
         # Ensure username exists and password is correct
 
         if len(rows) != 1:
