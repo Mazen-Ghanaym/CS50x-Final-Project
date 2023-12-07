@@ -1,51 +1,53 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Books
+Books
 {% endblock %}
 
 {% block main %}
-    <div style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
+<div style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
+    <br>
+    <br>
+    <form action="\books" method="post">
+        <div class="form-group">
+            <input class="form-control" type="text" name="title" placeholder="Enter a book title">
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
         <br>
         <br>
-        <form action="\books" method="post">
-            <div class="form-group">
-                <input class="form-control" type="text" name="title" placeholder="Enter a book title">
-            </div>
-                <button class="btn btn-primary" type="submit">Search</button>
-                <br>
-                <br>
-        </form>
-        {% if data %}
-            <h2>Results for "{{ header }}"</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Author</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for book in data['items'] %}
-                    <tr>
-                        <td>
-                            {% if 'imageLinks' in book['volumeInfo'] %}
-                            <a href="{{book['accessInfo']['webReaderLink']}}">
-                                <img src="{{ book['volumeInfo']['imageLinks']['smallThumbnail'] }}" alt="{{ book['volumeInfo']['title'] }} cover image">
-                            </a>
-                            {% else %}
-                            <img src="/static/inv.jpg" alt="{{ book['volumeInfo']['title'] }} cover image">
-                            {%endif%}
-                        </td>
-                        <td><a href="{{ url_for('book_detail', book_id=book['id']) }}">{{ book['volumeInfo']['title'] }}</a></td>
-                        {% if 'authors' in book['volumeInfo'] %}
-                            <td>{{ book['volumeInfo']['authors'][0] }}</td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
-    </div>
+    </form>
+    {% if data %}
+    <h2>Results for "{{ header }}"</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in data['items'] %}
+            <tr>
+                <td>
+                    {% if 'imageLinks' in book['volumeInfo'] %}
+                    <a href="{{book['accessInfo']['webReaderLink']}}">
+                        <img src="{{ book['volumeInfo']['imageLinks']['smallThumbnail'] }}"
+                            alt="{{ book['volumeInfo']['title'] }} cover image">
+                    </a>
+                    {% else %}
+                    <img src="/static/inv.jpg" alt="{{ book['volumeInfo']['title'] }} cover image">
+                    {%endif%}
+                </td>
+                <td><a href="{{ url_for('book_detail', book_id=book['id']) }}">{{ book['volumeInfo']['title'] }}</a>
+                </td>
+                {% if 'authors' in book['volumeInfo'] %}
+                <td>{{ book['volumeInfo']['authors'][0] }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
 {% endblock %}

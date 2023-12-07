@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Buy
+Buy
 {% endblock %}
 
 {% block main %}
-    <form action="/buy" method="post">
-        <div class="center">
-            <br>
-            <br>
+<form action="/buy" method="post">
+    <div class="center">
+        <br>
+        <br>
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="bookid" placeholder="Book ID" type="number">
         </div>
@@ -18,34 +18,35 @@
         <button class="btn btn-primary" type="submit">Buy</button>
         <br>
         <br>
-        </div>
-        <br>
-        <br>
-        <div style="background-color:rgba(255,255,255,0.9)">
-            <table class="table">
-                <thead>
-                  <tr>
+    </div>
+    <br>
+    <br>
+    <div style="background-color:rgba(255,255,255,0.9)">
+        <table class="table">
+            <thead>
+                <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Author</th>
                     <th scope="col">Price</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Buy</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for book in books%}
-                        <tr>
-                            <th scope="row">{{book["id"]}}</th>
-                            <td>{{book["name"]}}</td>
-                            <td>{{book["author"]}}</td>
-                            <td>{{book["price"]}}</td>
-                            <td>{{book["amount"]}}</td>
-                            <td><a href="{{ url_for('purchase', book_id=book['google_id']) }}" target="_blank" class="buy-button">Buy</a></td>
-                        </tr>
-                   {% endfor %}
-                </tbody>
-              </table>
-        </div>
-    </form>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books%}
+                <tr>
+                    <th scope="row">{{book["id"]}}</th>
+                    <td>{{book["name"]}}</td>
+                    <td>{{book["author"]}}</td>
+                    <td>{{book["price"]}}</td>
+                    <td>{{book["amount"]}}</td>
+                    <td><a href="{{ url_for('purchase', book_id=book['google_id']) }}" target="_blank"
+                            class="buy-button">Buy</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</form>
 {% endblock %}

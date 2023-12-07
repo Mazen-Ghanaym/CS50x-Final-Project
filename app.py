@@ -281,7 +281,8 @@ def login():
             return render_template(
                 "invalid.html", placeholder="invalid username and/or password"
             )
-        if rows[0][2] != request.form.get("password"):
+        print(rows)
+        if rows[0]["password"] != request.form.get("password"):
             return render_template(
                 "invalid.html", placeholder="invalid username and/or password"
             )
@@ -289,7 +290,7 @@ def login():
         db.close()
         con.close()
         # Remember which user has logged in
-        session["user_id"] = rows[0][0]
+        session["user_id"] = rows[0]["id"]
         # Redirect user to home page
         return redirect("/")
     # User reached route via GET (as by clicking a link or via redirect)
