@@ -43,8 +43,12 @@ Profile
                         </div>
                         <br>
                         <a href="{{dat['volumeInfo']['infoLink']}}">
+                            {% if 'imageLinks' in dat['volumeInfo'] %}
                             <img src="{{ dat['volumeInfo']['imageLinks']['smallThumbnail'] }}"
                                 alt="{{ dat['volumeInfo']['title'] }} cover image">
+                            {% else %}
+                            <img src="https://via.placeholder.com/150" alt="No cover image">
+                            {% endif %}
                         </a>
                         <br>
                         <br>

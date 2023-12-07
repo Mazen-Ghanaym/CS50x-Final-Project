@@ -165,8 +165,6 @@ def buy():
 @app.route("/purchase/<book_id>",methods=["GET","POST"])
 @login_required
 def purchase(book_id):
-    con = sqlite3.connect("trading.db")
-    db = con.cursor()
     if request.method=="GET":
         url = f'https://www.googleapis.com/books/v1/volumes/{book_id}'
         response = requests.get(url)
@@ -176,7 +174,9 @@ def purchase(book_id):
         address=request.form.get('address')
         phone_number=request.form.get('phone_number')
         amount=request.form.get('amount')
-
+        # connect to database
+        con = sqlite3.connect("trading.db")
+        db = con.cursor()
         db.execute("SELECT * FROM users WHERE id=?;",(session['user_id'],))
         columns = [column[0] for column in db.description]
         user = [dict(zip(columns, row)) for row in db.fetchall()]
@@ -199,11 +199,13 @@ def purchase(book_id):
                 "invalid.html", placeholder="INVALID NUMBER OF BOOKS!"
             )
         # retrive all books whose id = bookid
-        db.execute("SELECT * FROM books WHERE google_id=?;", (book_id,))
+        db.execute("SELECT *,SUM(amount) as all_amount FROM books WHERE google_id=?;", (book_id,))
         columns = [column[0] for column in db.description]
         book = [dict(zip(columns, row)) for row in db.fetchall()]
         # check if amount less than number of books in the stock
-        if int(amount) > int(book[0]["amount"]):
+        print(book[0]["all_amount"])
+        print(amount)
+        if int(amount) > int(book[0]["all_amount"]):
             return render_template(
                 "invalid.html", placeholder="INSUFCIENT NUMBER OF BOOKS!"
             )
@@ -232,7 +234,7 @@ def purchase(book_id):
         # update the amount of the book after selling it.
         db.execute(
             "UPDATE books SET amount=? WHERE google_id=?;",
-            (int(book[0]["amount"]) - amount,
+            (int(book[0]["all_amount"]) - amount,
             book_id,)
         )
         # add transaction after completing the purchase
