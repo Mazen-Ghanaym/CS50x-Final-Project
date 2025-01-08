@@ -84,3 +84,15 @@ main img {
     background-color: rgba(255, 0, 0, 0.3);
     background-image: url("/static/woodbackground.jpg");
 }
+
+.select-category-form label{
+    font-weight: bold;
+    border-radius: 25px;
+    padding: 10px;
+}
+
+#dropdown{
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 10px;
+}
