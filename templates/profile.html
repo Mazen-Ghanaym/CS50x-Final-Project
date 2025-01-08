@@ -25,44 +25,41 @@ Profile
     <br>
     <br>
 </div>
-<div style="background-color:rgba(255,255,255,0.9);border-radius: 25px;">
-    <h3>{{header}}</h3>
-    <table class="table">
-        <tbody>
-            {% for dat in data["items"]%}
-            <tr>
-                <div>
-                    <td>{{dat["volumeInfo"]["title"]}} by
-                        <div>
-                            {% if 'authors' in dat['volumeInfo'] %}
-                            <span style="font-size:large; font-weight: bold;">{{ dat['volumeInfo']['authors'][0]
-                                }}</span>
-                            {% elif header=="Biography" %}
-                            <span style="font-size:large; font-weight: bold;">{{ dat['volumeInfo']['title']}}</span>
-                            {%else%}
-                            <p>Not found</p>
-                            {%endif%}
-                        </div>
-                        <br>
-                        <a href="{{dat['volumeInfo']['infoLink']}}">
-                            {% if 'imageLinks' in dat['volumeInfo'] %}
-                            <img src="{{ dat['volumeInfo']['imageLinks']['smallThumbnail'] }}"
-                                alt="{{ dat['volumeInfo']['title'] }} cover image">
-                            {% else %}
-                            <img src="https://via.placeholder.com/150" alt="No cover image">
-                            {% endif %}
-                        </a>
-                        <br>
-                        <br>
-                        <a href="{{ dat['saleInfo']['buyLink'] }}" target="_blank" class="buy-button">Buy Now</a>
-                    </td>
+<!-- make book grid each book has a card -->
+<div class="container" style="background-color:rgba(255,255,255,0.9);border-radius: 25px;">
+    <h2>{{header}}</h2>
+    <br>
+    <div class="row">
+        {% for dat in data["items"]%}
+        <div class="col-md-4" style="margin-bottom: 20px;">
+            <div class="card" style="width: 18rem;">
+                <a href="{{dat['volumeInfo']['infoLink']}}">
+                    {% if 'imageLinks' in dat['volumeInfo'] %}
+                    <img src="{{ dat['volumeInfo']['imageLinks']['smallThumbnail'] }}"
+                        alt="{{ dat['volumeInfo']['title'] }} cover image" class="card-img-top">
+                    {% else %}
+                    <img src="https://via.placeholder.com/150" alt="No cover image" class="card-img-top">
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{dat["volumeInfo"]["title"]}}</h5>
+                    <p class="card-text">
+                        {% if 'authors' in dat['volumeInfo'] %}
+                        <span style="font-size:large; font-weight: bold;">{{ dat['volumeInfo']['authors'][0] }}</span>
+                        {% elif header=="Biography" %}
+                        <span style="font-size:large; font-weight: bold;">{{ dat['volumeInfo']['title']}}</span>
+                        {%else%}
+                        <p>Not found</p>
+                        {%endif%}
+                    </p>
+                    <a href="{{ dat['saleInfo']['buyLink'] }}" target="_blank" class="btn btn-primary">Buy Now</a>
                 </div>
-            </tr>
-            {% endfor %}
-
-        </tbody>
-    </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+<br>
 <div style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
     <h3>YOUR BOOKS</h3>
     <table class="table">
