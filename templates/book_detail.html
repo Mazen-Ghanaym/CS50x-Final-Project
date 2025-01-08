@@ -5,25 +5,33 @@ Book details
 {% endblock %}
 
 {% block main %}
-<div style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
+<div class="book-detail" style="background-color:rgba(255,255,255,0.9); border-radius: 25px;">
+    <br>
     <h1>{{ book['volumeInfo']['title'] }}</h1>
+    
     {% if 'authors' in book['volumeInfo'] %}
-    <p>By {{ book['volumeInfo']['authors'][0] }}</p>
+        <p>By {{ book['volumeInfo']['authors'][0] }}</p>
     {% endif %}
+
     {% if 'imageLinks' in book['volumeInfo']%}
-    <img style="width:25%; height:40%" src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}"
-        alt="{{ book['volumeInfo']['title'] }} cover image">
+        <img style="width:25%; height:40%" src="{{ book['volumeInfo']['imageLinks']['thumbnail'] }}"
+            alt="{{ book['volumeInfo']['title'] }} cover image">
     {% else %}
-    <img src="/static/inv.jpg" alt="{{ book['volumeInfo']['title'] }} cover image">
+        <img src="/static/inv.jpg" alt="{{ book['volumeInfo']['title'] }} cover image">
     {%endif%}
 
-    <p>{{ book['volumeInfo']['description'] | safe }}</p>
+    <p style="font-weight:bold; margin:30px; padding: 20px;">
+        {{ book['volumeInfo']['description'] | safe }}
+    </p>
+
     {% if 'listPrice' in book['saleInfo'] %}
-    <h5>Price: {{book['saleInfo']['listPrice']['amount']}} {{book['saleInfo']['listPrice']['currencyCode']}}</h5>
+        <h5>Price: {{book['saleInfo']['listPrice']['amount']}} {{book['saleInfo']['listPrice']['currencyCode']}}</h5>
     {% else %}
-    <h5>Not Found</h5>
+        <h5>Not Found</h5>
     {% endif %}
-    <p><a href="{{ book['saleInfo']['buyLink'] }}" target="_blank" class="buy-button">Buy Now</a></p>
+    <p>
+        <a href="{{ book['saleInfo']['buyLink'] }}" target="_blank" class="buy-button">Buy Now</a>
+    </p>
     <br>
 </div>
 {% endblock %}
