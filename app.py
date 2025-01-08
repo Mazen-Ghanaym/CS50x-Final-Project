@@ -9,6 +9,7 @@ from time import strftime
 import datetime
 from functools import wraps
 import requests
+from dotenv import load_dotenv
 
 # Configure application
 app = Flask(__name__)
@@ -20,8 +21,9 @@ Session(app)
 app.debug = True
 # Configure CS50 Library to use SQLite database
 
-#SQL("sqlite:///trading.db")
-
+#SQL("sqlite:///trading.db")    
+load_dotenv()
+API_KEY = os.getenv('API_KEY')
 
 def login_required(f):
     @wraps(f)
@@ -57,7 +59,7 @@ def index():
         return render_template("profile.html", rows=transactions, data=arts,header="Arts")
     else:
         option = request.form['dropdown']
-        url=f'https://www.googleapis.com/books/v1/volumes?q={option}&keys:key=AIzaSyAL46FdWUJnKPTP9_yeYRD6IzkqpvMSjvE'
+        url=f'https://www.googleapis.com/books/v1/volumes?q={option}&keys:key={API_KEY}'
         response = requests.get(url)
         data = response.json()
         #print(data)
